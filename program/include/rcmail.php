@@ -86,6 +86,11 @@ class rcmail extends rcube
   {
     $this->init(self::INIT_WITH_DB | self::INIT_WITH_PLUGINS);
 
+    $this->plugins->init();
+
+    // load plugins
+    $this->plugins->load_plugins((array)$this->config->get('plugins', array()), array('filesystem_attachments', 'jqueryui'));
+
     // start session
     $this->session_init();
 
@@ -113,9 +118,7 @@ class rcmail extends rcube
     else
       $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
 
-    // load plugins
-    $this->plugins->init($this, $this->task);
-    $this->plugins->load_plugins((array)$this->config->get('plugins', array()), array('filesystem_attachments', 'jqueryui'));
+    $this->plugins->init_plugins();
   }
 
 
